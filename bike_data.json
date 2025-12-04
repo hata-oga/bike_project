@@ -1,0 +1,167 @@
+[
+    { 
+        "id": "H2", 
+        "name": "Ninja H2 (2018)",
+        "specs": {
+            "price": "約330万円",
+            "displacement": "998cc (SC付)",
+            "maxPower": "242 PS / 11,500 rpm",
+            "weight": "238 kg",
+            "seatHeight": "825 mm",
+            "abs": "標準装備",
+            "modes": "3種 (KTRC)",
+            "tank": "17.0 L",
+            "length": "2,085 mm"
+        }
+    },
+    { 
+        "id": "ZX10R", 
+        "name": "Ninja ZX-10R (2022)",
+        "specs": {
+            "price": "約230万円",
+            "displacement": "998cc",
+            "maxPower": "213.1 PS / 13,200 rpm",
+            "weight": "207 kg",
+            "seatHeight": "835 mm",
+            "abs": "標準装備",
+            "modes": "3種 (S-KTRC)",
+            "tank": "17.0 L",
+            "length": "2,085 mm"
+        }
+    },
+    { 
+        "id": "CBR1000RRR", 
+        "name": "CBR1000RR-R SP (2024)",
+        "specs": {
+            "price": "約280万円",
+            "displacement": "999cc",
+            "maxPower": "218 PS / 14,000 rpm",
+            "weight": "201 kg",
+            "seatHeight": "830 mm",
+            "abs": "標準装備",
+            "modes": "5種 (HSTC)",
+            "tank": "16.0 L",
+            "length": "2,100 mm"
+        }
+    },
+    { 
+        "id": "CBR1000RR", 
+        "name": "CBR1000RR (SC77, 2019)",
+        "specs": {
+            "price": "約200万円",
+            "displacement": "999cc",
+            "maxPower": "192 PS / 13,000 rpm",
+            "weight": "201 kg",
+            "seatHeight": "820 mm",
+            "abs": "標準装備",
+            "modes": "5種 (HSTC)",
+            "tank": "16.0 L",
+            "length": "2,065 mm"
+        }
+    },
+    {
+        "id": "R1", 
+        "name": "YZF-R1 (2020)", 
+        "specs": {
+            "price": "約242万円", 
+            "displacement": "998cc",
+            "maxPower": "200 PS / 13,500 rpm",
+            "weight": "201 kg",
+            "seatHeight": "855 mm", 
+            "abs": "標準装備",
+            "modes": "7種 (TCS, SCS, LIF等)",
+            "tank": "17.0 L",
+            "length": "2,055 mm"
+        }
+    },
+    {
+        "id": "GSXR1000R",
+        "name": "GSX-R1000R (2021)",
+        "specs": {
+            "price": "約215万円",
+            "displacement": "999cc",
+            "maxPower": "203 PS / 13,200 rpm",
+            "weight": "203 kg",
+            "seatHeight": "825 mm",
+            "abs": "標準装備",
+            "modes": "3種 (SDMS)",
+            "tank": "16.0 L",
+            "length": "2,075 mm"
+        }
+    },
+    {
+        "id": "S1000RR",
+        "name": "BMW S1000RR (2023)",
+        "specs": {
+            "price": "約248万円",
+            "displacement": "999cc",
+            "maxPower": "210 PS / 13,750 rpm",
+            "weight": "195 kg",
+            "seatHeight": "824 mm",
+            "abs": "標準装備",
+            "modes": "4種 (Rain, Road, Dynamic, Race)",
+            "tank": "16.5 L",
+            "length": "2,077 mm"
+        }
+    },
+    {
+        "id": "PanigaleV4",
+        "name": "Panigale V4 (2023)",
+        "specs": {
+            "price": "約288万円",
+            "displacement": "1,103cc", 
+            "maxPower": "215.5 PS / 13,000 rpm",
+            "weight": "198 kg",
+            "seatHeight": "850 mm",
+            "abs": "標準装備",
+            "modes": "4種 (Race A/B, Sport, Street)",
+            "tank": "17.0 L",
+            "length": "2,070 mm"
+        }
+    },
+    {
+        "id": "PanigaleV2",
+        "name": "Panigale V2 (2023)",
+        "specs": {
+            "price": "約227万円",
+            "displacement": "955cc",
+            "maxPower": "155 PS / 10,750 rpm",
+            "weight": "200 kg",
+            "seatHeight": "840 mm",
+            "abs": "標準装備",
+            "modes": "3種 (Race, Sport, Street)",
+            "tank": "17.0 L",
+            "length": "2,000 mm"
+        }
+    },
+    {
+        "id": "RSV4",
+        "name": "RSV4 Factory (2023)",
+        "specs": {
+            "price": "約297万円",
+            "displacement": "1,099cc",
+            "maxPower": "217 PS / 13,000 rpm",
+            "weight": "202 kg",
+            "seatHeight": "845 mm",
+            "abs": "標準装備",
+            "modes": "6種 (3 Track, 3 Road)",
+            "tank": "17.9 L",
+            "length": "2,055 mm"
+        }
+    },
+    {
+        "id": "Hayabusa",
+        "name": "ハヤブサ (2022)",
+        "specs": {
+            "price": "約198万円",
+            "displacement": "1,340cc",
+            "maxPower": "190 PS / 9,700 rpm", 
+            "weight": "264 kg", 
+            "seatHeight": "800 mm",
+            "abs": "標準装備",
+            "modes": "3種 (SDMS-α)",
+            "tank": "20.0 L",
+            "length": "2,180 mm" 
+        }
+    }
+]
