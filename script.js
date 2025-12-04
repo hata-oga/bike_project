@@ -1,5 +1,4 @@
-
- const BIKE_DATA_URL = 'https://raw.githubusercontent.com/hata-oga/ProjectWS2/09/main/bike_data.json';
+const BIKE_DATA_URL = 'https://raw.githubusercontent.com/hata-oga/ProjectWS2/09/main/bike_data.json'; 
 
 let bikeData = []; 
 
@@ -51,6 +50,8 @@ function initializeSelects() {
     ];
 
     selects.forEach((select, index) => {
+        // 既存のオプションをクリア
+        select.innerHTML = '';
       
         const defaultOption = document.createElement('option');
         defaultOption.value = '';
@@ -67,6 +68,7 @@ function initializeSelects() {
         select.value = ''; 
     });
     
+    // 初期比較をロード
     updateComparison(); 
 }
 
@@ -125,18 +127,24 @@ function toggleCategory(headerRow) {
 
     const categoryName = categoryElement.dataset.categoryName;
    
-    let isExpanded = categoryElement.textContent.includes('[−]');
+    let isExpanded = categoryElement.textContent.includes('[−]'); // 「−」があれば展開中
 
     
-    categoryElement.innerHTML = `<strong>${categoryName} ${isExpanded ? '[+]' : '[−]'}</strong>`;
+    categoryElement.innerHTML = `<strong>${categoryName} ${isExpanded ? '[+]' : '[−]'}</strong>`; // 記号を切り替え
     
     const allRows = document.querySelectorAll('.spec-row');
     
     allRows.forEach(row => {
         if (row.dataset.category === categoryName) {
-            row.style.display = isExpanded ? 'none' : 'table-row';
+            // 💡 CSSクラス 'hidden' を使用して表示/非表示を切り替え
+            if (isExpanded) {
+                 row.classList.add('hidden'); // 展開中なら非表示
+            } else {
+                 row.classList.remove('hidden'); // 折りたたみ中なら表示
+            }
         }
     });
 }
 
+// ⬅️ 致命的なエラーの元となっていた '}' を削除しました
 document.addEventListener('DOMContentLoaded', fetchBikeData);
