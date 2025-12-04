@@ -1,29 +1,27 @@
-// 【重要】GitHubに配置した bike_data.json の生のデータURLに置き換えてください
-const BIKE_DATA_URL = 'https://raw.githubusercontent.com/YourUsername/YourRepoName/main/bike_data.json'; 
 
-let bikeData = []; // 取得したデータを格納するグローバル変数
+ const BIKE_DATA_URL = 'https://raw.githubusercontent.com/hata-oga/ProjectWS2/09/main/bike_data.json';
+
+let bikeData = []; 
 
 const specStructure = {
     '基本情報・価格': [
         { key: 'price', label: '価格 (税込)' }
     ],
-    '性能・エンジン': [ // 末尾のスペースを削除
+    '性能・エンジン': [ 
         { key: 'displacement', label: '排気量' },
         { key: 'maxPower', label: '最高出力 (ラムエア)' },
         { key: 'tank', label: '燃料タンク容量' }
     ],
-    '車体・寸法': [ // 末尾のスペースを削除
+    '車体・寸法': [ 
         { key: 'weight', label: '車両重量 (装備)' },
         { key: 'seatHeight', label: 'シート高' },
         { key: 'length', label: '全長' }
     ],
-    '安全・装備': [ // 末尾のスペースを削除
+    '安全・装備': [ 
         { key: 'abs', label: 'ABS' },
         { key: 'modes', label: 'ライディングモード' }
     ]
 };
-
-// データを非同期でフェッチし、初期化を行う
 async function fetchBikeData() {
     try {
         const response = await fetch(BIKE_DATA_URL);
@@ -32,7 +30,7 @@ async function fetchBikeData() {
         }
         bikeData = await response.json(); // データを取得
         console.log("Bike data loaded successfully.");
-        initializeSelects(); // データ取得後に初期化処理を呼び出す
+        initializeSelects(); 
     } catch (error) {
         console.error("Could not fetch bike data:", error);
         
