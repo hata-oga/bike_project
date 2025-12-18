@@ -1,10 +1,36 @@
+
+<?php
+// 同じフォルダにあるファイルを直接指定
+$BIKE_DATA_URL = 'bike_data.json';
+$bikeData = [];
+
+try {
+    // ファイルを読み込む
+    $jsonContent = file_get_contents($BIKE_DATA_URL);
+    if ($jsonContent === FALSE) {
+        throw new Exception("ファイルの読み込みに失敗しました。");
+    }
+    
+    // JSONをデコード
+    $bikeData = json_decode($jsonContent, true);
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        throw new Exception("JSONの形式が正しくありません。");
+    }
+} catch (Exception $e) {
+    // エラーが起きた場合は空の配列にする
+    $bikeData = []; 
+}
+
+// JavaScriptへ渡すためにJSON化
+$bikeDataJson = json_encode($bikeData);
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <title>バイク比較シミュレーター</title>
     <style>
-     
+        /* CSSコードは元のindex.htmlから変更なし */
         body { font-family: Arial, sans-serif; margin: 20px; background-color: #f9f9f9; }
         h1 { color: #333; border-bottom: 2px solid #ccc; padding-bottom: 10px; }
         .controls { margin-bottom: 20px; padding: 15px; background-color: #fff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
@@ -18,6 +44,10 @@
         .spec-row:nth-child(odd) { background-color: #f9f9f9; }
         .spec-row.hidden { display: none; }
     </style>
+    
+    <script>
+        const PHP_BIKE_DATA = <?php echo $bikeDataJson; ?>;
+    </script>
 </head>
 <body>
 
@@ -43,7 +73,6 @@
             </tbody>
     </table>
 
-    <script src="bike_data.js"></script> 
     <script src="script.js"></script>
 </body>
 </html>

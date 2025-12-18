@@ -1,6 +1,8 @@
-const BIKE_DATA_URL = 'https://raw.githubusercontent.com/hata-oga/ProjectWS2/09/main/bike_data.json'; 
+// GitHubのURLはPHP側で処理するため不要になりました
+// const BIKE_DATA_URL = 'https://raw.githubusercontent.com/hata-oga/SW/main/bike_data.json'; 
 
-let bikeData = []; 
+// PHPから渡されたデータを使用
+let bikeData = PHP_BIKE_DATA || []; 
 
 const specStructure = {
     '基本情報・価格': [
@@ -21,26 +23,15 @@ const specStructure = {
         { key: 'modes', label: 'ライディングモード' }
     ]
 };
-async function fetchBikeData() {
-    try {
-        const response = await fetch(BIKE_DATA_URL);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        bikeData = await response.json(); // データを取得
-        console.log("Bike data loaded successfully.");
-        initializeSelects(); 
-    } catch (error) {
-        console.error("Could not fetch bike data:", error);
-        
-        document.getElementById('table-body').innerHTML = '<tr><td colspan="3">バイクデータの読み込みに失敗しました。GitHubのURLとCORS設定を確認してください。</td></tr>';
-    }
-}
 
+// fetchBikeData関数を削除し、DOMContentLoadedで直接initializeSelectsを呼び出す
+// fetchBikeData関数
+// function fetchBikeData() { ... }
 
 function initializeSelects() {
    
     if (bikeData.length === 0) {
+        document.getElementById('table-body').innerHTML = '<tr><td colspan="3">バイクデータが読み込まれていません。</td></tr>';
         return; 
     }
 
@@ -50,6 +41,7 @@ function initializeSelects() {
     ];
 
     selects.forEach((select, index) => {
+      
         // 既存のオプションをクリア
         select.innerHTML = '';
       
@@ -68,7 +60,6 @@ function initializeSelects() {
         select.value = ''; 
     });
     
-    // 初期比較をロード
     updateComparison(); 
 }
 
@@ -127,24 +118,21 @@ function toggleCategory(headerRow) {
 
     const categoryName = categoryElement.dataset.categoryName;
    
-    let isExpanded = categoryElement.textContent.includes('[−]'); // 「−」があれば展開中
+    let isExpanded = categoryElement.textContent.includes('[−]');
 
     
-    categoryElement.innerHTML = `<strong>${categoryName} ${isExpanded ? '[+]' : '[−]'}</strong>`; // 記号を切り替え
+    categoryElement.innerHTML = `<strong>${categoryName} ${isExpanded ? '[+]' : '[−]'}</strong>`;
     
     const allRows = document.querySelectorAll('.spec-row');
     
     allRows.forEach(row => {
         if (row.dataset.category === categoryName) {
-            // 💡 CSSクラス 'hidden' を使用して表示/非表示を切り替え
-            if (isExpanded) {
-                 row.classList.add('hidden'); // 展開中なら非表示
-            } else {
-                 row.classList.remove('hidden'); // 折りたたみ中なら表示
-            }
+            row.style.display = isExpanded ? 'none' : 'table-row';
         }
     });
 }
 
-// ⬅️ 致命的なエラーの元となっていた '}' を削除しました
-document.addEventListener('DOMContentLoaded', fetchBikeData);
+// データ取得部分が不要になったため、直接initializeSelectsを呼び出す
+document.addEventListener('DOMContentLoaded', initializeSelects);
+
+// 元のbike_data.jsの内容をspecStructureと結合していた場合、bike_data.jsの読み込みは不要
