@@ -1,138 +1,108 @@
-// GitHubのURLはPHP側で処理するため不要になりました
-// const BIKE_DATA_URL = 'https://raw.githubusercontent.com/hata-oga/SW/main/bike_data.json'; 
-
-// PHPから渡されたデータを使用
-let bikeData = PHP_BIKE_DATA || []; 
+let bikeData = PHP_BIKE_DATA || [];
 
 const specStructure = {
     '基本情報・価格': [
         { key: 'price', label: '価格 (税込)' }
     ],
-    '性能・エンジン': [ 
+    '性能・エンジン': [
         { key: 'displacement', label: '排気量' },
-        { key: 'maxPower', label: '最高出力 (ラムエア)' },
+        { key: 'maxPower', label: '最高出力' },
         { key: 'tank', label: '燃料タンク容量' }
     ],
-    '車体・寸法': [ 
-        { key: 'weight', label: '車両重量 (装備)' },
+    '車体・寸法': [
+        { key: 'weight', label: '車両重量' },
         { key: 'seatHeight', label: 'シート高' },
         { key: 'length', label: '全長' }
     ],
-    '安全・装備': [ 
+    '安全・装備': [
         { key: 'abs', label: 'ABS' },
         { key: 'modes', label: 'ライディングモード' }
     ]
 };
 
-// fetchBikeData関数を削除し、DOMContentLoadedで直接initializeSelectsを呼び出す
-// fetchBikeData関数
-// function fetchBikeData() { ... }
-
 function initializeSelects() {
-   
-    if (bikeData.length === 0) {
-        document.getElementById('table-body').innerHTML = '<tr><td colspan="3">バイクデータが読み込まれていません。</td></tr>';
-        return; 
-    }
+    const s1 = document.getElementById('bike1-select');
+    const s2 = document.getElementById('bike2-select');
+    const body = document.getElementById('table-body');
 
-    const selects = [
-        document.getElementById('bike1-select'), 
-        document.getElementById('bike2-select')
-    ];
+    if (!s1 || !s2 || !body) return;
 
-    selects.forEach((select, index) => {
-      
-        // 既存のオプションをクリア
+    [s1, s2].forEach((select, index) => {
         select.innerHTML = '';
-      
-        const defaultOption = document.createElement('option');
-        defaultOption.value = '';
-        defaultOption.textContent = `-- バイク ${index + 1} を選択 --`;
-        select.appendChild(defaultOption);
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.textContent = `-- バイク ${index + 1} を選択 --`;
+        select.appendChild(opt);
 
         bikeData.forEach(bike => {
-            const option = document.createElement('option');
-            option.value = bike.id;
-            option.textContent = bike.name;
-            select.appendChild(option);
+            const o = document.createElement('option');
+            o.value = bike.id;
+            o.textContent = bike.name;
+            select.appendChild(o);
         });
-        
-        select.value = ''; 
+
+        select.addEventListener('change', updateComparison);
     });
-    
-    updateComparison(); 
+
+    updateComparison();
 }
 
+function renderBikeImage(bike, num) {
+    const img = document.getElementById(`bike-img${num}`);
+    const name = document.getElementById(`img-name${num}`);
+
+    if (!img || !name) return;
+
+    if (bike && bike.image) {
+        name.textContent = bike.name;
+        img.src = bike.image;
+        img.style.display = 'block';
+    } else {
+        name.textContent = `バイク ${num}`;
+        img.style.display = 'none';
+    }
+}
 
 function updateComparison() {
-    const bike1Id = document.getElementById('bike1-select').value;
-    const bike2Id = document.getElementById('bike2-select').value;
+    const s1 = document.getElementById('bike1-select');
+    const s2 = document.getElementById('bike2-select');
+    const body = document.getElementById('table-body');
+    const h1 = document.getElementById('bike1-name');
+    const h2 = document.getElementById('bike2-name');
 
-    const bike1 = bikeData.find(b => b.id === bike1Id);
-    const bike2 = bikeData.find(b => b.id === bike2Id);
-    
-    const outputBody = document.getElementById('table-body');
-    const name1Header = document.getElementById('bike1-name');
-    const name2Header = document.getElementById('bike2-name');
+    if (!s1 || !s2 || !body || !h1 || !h2) return;
 
-    outputBody.innerHTML = ''; 
+    const bike1 = bikeData.find(b => b.id === s1.value);
+    const bike2 = bikeData.find(b => b.id === s2.value);
 
-    
-    name1Header.textContent = bike1 ? bike1.name : 'バイク 1';
-    name2Header.textContent = bike2 ? bike2.name : 'バイク 2';
-    
-    
+    renderBikeImage(bike1, 1);
+    renderBikeImage(bike2, 2);
+
+    h1.textContent = bike1 ? bike1.name : 'バイク 1';
+    h2.textContent = bike2 ? bike2.name : 'バイク 2';
+
+    body.innerHTML = '';
+
     if (!bike1 && !bike2) {
-        outputBody.innerHTML = '<tr><td colspan="3" style="text-align: center; padding: 50px;">比較したいバイクを2台選択してください。</td></tr>';
+        body.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:40px;">比較したいバイクを選択してください。</td></tr>';
         return;
     }
 
-    
-    for (const category in specStructure) {
-       
-        const categoryRow = outputBody.insertRow();
-        categoryRow.className = 'category-header';
-        categoryRow.onclick = function() { toggleCategory(categoryRow); };
-        
-        const categoryCell = categoryRow.insertCell();
-        categoryCell.colSpan = 3; 
-        categoryCell.innerHTML = `<span data-category-name="${category}"><strong>${category} [−]</strong></span>`;
+    for (const cat in specStructure) {
+        const row = body.insertRow();
+        row.className = 'category-header';
+        const cell = row.insertCell();
+        cell.colSpan = 3;
+        cell.textContent = cat;
 
-       
-        specStructure[category].forEach(spec => {
-            const specRow = outputBody.insertRow();
-            specRow.className = 'spec-row';
-            specRow.dataset.category = category;
-            
-            specRow.insertCell().textContent = spec.label; 
-            specRow.insertCell().textContent = bike1 ? (bike1.specs[spec.key] || 'N/A') : '';
-            specRow.insertCell().textContent = bike2 ? (bike2.specs[spec.key] || 'N/A') : '';
+        specStructure[cat].forEach(spec => {
+            const r = body.insertRow();
+            r.className = 'spec-row';
+            r.insertCell().textContent = spec.label;
+            r.insertCell().textContent = bike1 ? bike1.specs[spec.key] || 'N/A' : '';
+            r.insertCell().textContent = bike2 ? bike2.specs[spec.key] || 'N/A' : '';
         });
     }
 }
 
-
-function toggleCategory(headerRow) {
-    const categoryElement = headerRow.querySelector('[data-category-name]');
-    if (!categoryElement) return;
-
-    const categoryName = categoryElement.dataset.categoryName;
-   
-    let isExpanded = categoryElement.textContent.includes('[−]');
-
-    
-    categoryElement.innerHTML = `<strong>${categoryName} ${isExpanded ? '[+]' : '[−]'}</strong>`;
-    
-    const allRows = document.querySelectorAll('.spec-row');
-    
-    allRows.forEach(row => {
-        if (row.dataset.category === categoryName) {
-            row.style.display = isExpanded ? 'none' : 'table-row';
-        }
-    });
-}
-
-// データ取得部分が不要になったため、直接initializeSelectsを呼び出す
 document.addEventListener('DOMContentLoaded', initializeSelects);
-
-// 元のbike_data.jsの内容をspecStructureと結合していた場合、bike_data.jsの読み込みは不要
