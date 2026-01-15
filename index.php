@@ -46,6 +46,9 @@ $bikeDataJson = json_encode($bikeData);
 
     <label for="bike2-select">バイク 2:</label>
     <select id="bike2-select"></select>
+
+    <label for="bike3-select">バイク 3:</label>
+    <select id="bike3-select"></select>
 </div>
 
 <div class="bike-images">
@@ -56,6 +59,10 @@ $bikeDataJson = json_encode($bikeData);
     <div>
         <h3 id="img-name2">バイク 2</h3>
         <img id="bike-img2">
+      </div>
+    <div>
+        <h3 id="img-name3">バイク 3</h3>
+        <img id="bike-img3">
     </div>
 </div>
 
@@ -65,6 +72,7 @@ $bikeDataJson = json_encode($bikeData);
             <th>項目</th>
             <th id="bike1-name">バイク 1</th>
             <th id="bike2-name">バイク 2</th>
+            <th id="bike3-name">バイク 3</th>
         </tr>
     </thead>
     <tbody id="table-body"></tbody>

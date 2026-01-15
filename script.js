@@ -23,11 +23,12 @@ const specStructure = {
 function initializeSelects() {
     const s1 = document.getElementById('bike1-select');
     const s2 = document.getElementById('bike2-select');
+    const s3 = document.getElementById('bike3-select');
     const body = document.getElementById('table-body');
 
-    if (!s1 || !s2 || !body) return;
+    if (!s1 || !s2 || !s3 || !body) return;
 
-    [s1, s2].forEach((select, index) => {
+    [s1, s2, s3].forEach((select, index) => {
         select.innerHTML = '';
         const opt = document.createElement('option');
         opt.value = '';
@@ -66,24 +67,28 @@ function renderBikeImage(bike, num) {
 function updateComparison() {
     const s1 = document.getElementById('bike1-select');
     const s2 = document.getElementById('bike2-select');
+    const s3 = document.getElementById('bike3-select');
     const body = document.getElementById('table-body');
     const h1 = document.getElementById('bike1-name');
     const h2 = document.getElementById('bike2-name');
+    const h3 = document.getElementById('bike3-name');
 
-    if (!s1 || !s2 || !body || !h1 || !h2) return;
+    if (!s1 || !s2 || !s3 || !body || !h1 || !h2 || !h3) return;
 
     const bike1 = bikeData.find(b => b.id === s1.value);
     const bike2 = bikeData.find(b => b.id === s2.value);
-
+    const bike3 = bikeData.find(b => b.id === s3.value);
     renderBikeImage(bike1, 1);
     renderBikeImage(bike2, 2);
+    renderBikeImage(bike3, 3);
 
     h1.textContent = bike1 ? bike1.name : 'バイク 1';
     h2.textContent = bike2 ? bike2.name : 'バイク 2';
+    h3.textContent = bike3 ? bike3.name : 'バイク 3';
 
     body.innerHTML = '';
 
-    if (!bike1 && !bike2) {
+    if (!bike1 && !bike2 && !bike3) {
         body.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:40px;">比較したいバイクを選択してください。</td></tr>';
         return;
     }
@@ -92,7 +97,7 @@ function updateComparison() {
         const row = body.insertRow();
         row.className = 'category-header';
         const cell = row.insertCell();
-        cell.colSpan = 3;
+        cell.colSpan = 4;
         cell.textContent = cat;
 
         specStructure[cat].forEach(spec => {
@@ -101,6 +106,7 @@ function updateComparison() {
             r.insertCell().textContent = spec.label;
             r.insertCell().textContent = bike1 ? bike1.specs[spec.key] || 'N/A' : '';
             r.insertCell().textContent = bike2 ? bike2.specs[spec.key] || 'N/A' : '';
+            r.insertCell().textContent = bike3 ? bike3.specs[spec.key] || 'N/A' : '';
         });
     }
 }
